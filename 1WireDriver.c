@@ -1,22 +1,22 @@
 /****************************************************************************
-* PROGRAMME 1WireDriver.c													*
-*                                                                         	*
-* Lieu      : ETML - Labo uC                                              	*
-* Auteur    : Yann Dos Santos						                        *
-* Date      : 25.11.2022					                               	*
-*                                                                         	*
-* Modifications                                                           	*
-*   Auteur  :           					                              	*
-*   Date    : 																*
-*   Raisons : 																*
+* PROGRAMME 1WireDriver.c
+*                                                             
+* Lieu      : ETML - Labo uC                                              	
+* Auteur    : Yann Dos Santos						                        
+* Date      : 25.11.2022					                               
+*                                                                         
+* Modifications                                                           
+*   Auteur  :           					                              
+*   Date    : 																
+*   Raisons : 																
 *****************************************************************************/
 
 /****************************************************************************
-* DESCRIPTION :																*
-* Driver pour le protocole 1-Wire de Maxim Integrated. Concu pour les 		*
-* capteurs temperature comme le DS18B20 ou le DS1822.						*
-* ATTENTION : Les fonctions SearchROM et AlarmSearch ne sont PAS completes.	*
-* 			  Ce driver n'inclut pas le cas du parasite power				*
+* DESCRIPTION :																
+* Driver pour le protocole 1-Wire de Maxim Integrated. Concu pour les 		
+* capteurs temperature comme le DS18B20 ou le DS1822.				
+* ATTENTION : Les fonctions SearchROM et AlarmSearch ne sont PAS completes.	
+* 	      Ce driver n'inclut pas le cas du parasite power		
 *****************************************************************************/
 
 
@@ -40,16 +40,16 @@ extern TIM_HandleTypeDef htim17;
 ///////////////////////
 
 /****************************************************************************
-* Fonction usDelay															*
-*																			*
-* Parametres : 																*
-*		uint16_t Microseconds : temps d'attente en microsecondes			*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Fonction d'attente active en microsecondes pour les timings du		*
-* 		protocole 1-Wire													*
+* Fonction usDelay															
+*																			
+* Parametres : 																
+*		uint16_t Microseconds : temps d'attente en microsecondes			
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Fonction d'attente active en microsecondes pour les timings du		
+* 		protocole 1-Wire													
 ****************************************************************************/
 void usDelay(uint16_t Microseconds){
 	__HAL_TIM_SET_COUNTER(&htim17, 0);
@@ -58,23 +58,23 @@ void usDelay(uint16_t Microseconds){
 
 
 /****************************************************************************
-* Fonction Initialization													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Fonction d'initialisation des capteurs 1-Wire						*
-* 																			*
-* Retourne : 																*
-* 		uint8_t Presence : 1 si capteur un ou plusieurs capteur sont 		*
-* 						   branches sur la ligne 1-Wire						*
-* 						   0 si aucun capteur branche						*
-* 																			*
-* Note : Les timings recommandes par Maxim Integrated ont ete utilises		*
+* Fonction Initialization													
+*																		
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*																			
+* Inclus : "1WireDriver.h"													
+*																		
+* Description :																
+* 		Fonction d'initialisation des capteurs 1-Wire						
+* 																			
+* Retourne : 																
+* 		uint8_t Presence : 1 si capteur un ou plusieurs capteur sont 		
+* 				   branches sur la ligne 1-Wire						
+* 				   0 si aucun capteur branche						
+* 																			
+* Note : Les timings recommandes par Maxim Integrated ont ete utilises		
 ****************************************************************************/
 uint8_t Initialization(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	uint8_t Presence = 0;
@@ -90,18 +90,18 @@ uint8_t Initialization(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction WriteHigh														*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Envoie un 1 logique au capteur										*
-* 																			*
-* Note : Les timings recommandes par Maxim Integrated ont ete utilises		*
+* Fonction WriteHigh														
+*																			
+* Parametres : 															
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32					
+*																			
+* Inclus : "1WireDriver.h"												
+*																			
+* Description :														
+* 		Envoie un 1 logique au capteur									
+* 																	
+* Note : Les timings recommandes par Maxim Integrated ont ete utilises		
 ****************************************************************************/
 void WriteHigh(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	HAL_GPIO_WritePin(GPIOx, GPIO_Pin, 0);
@@ -112,18 +112,18 @@ void WriteHigh(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction WriteLow															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Envoie un 0 logique au capteur										*
-* 																			*
-* Note : Les timings recommandes par Maxim Integrated ont ete utilises		*
+* Fonction WriteLow															
+*																			
+* Parametres : 															
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*																		
+* Inclus : "1WireDriver.h"													
+*																		
+* Description :																
+* 		Envoie un 0 logique au capteur								
+* 																	
+* Note : Les timings recommandes par Maxim Integrated ont ete utilises		
 ****************************************************************************/
 void WriteLow(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	HAL_GPIO_WritePin(GPIOx, GPIO_Pin, 0);
@@ -133,21 +133,21 @@ void WriteLow(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 }
 
 /****************************************************************************
-* Fonction Read																*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Cree un time slot pour la lecture de donnee envoye par le capteur	*
-* 																			*
-* Retourne : 																*
-* 		uint8_t bitValue : Valeur du bit envoyee par le capteur				*
-* 																			*
-* Note : Les timings recommandes par Maxim Integrated ont ete utilises		*
+* Fonction Read																
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :															
+* 		Cree un time slot pour la lecture de donnee envoye par le capteur	
+* 																			
+* Retourne : 															
+* 		uint8_t bitValue : Valeur du bit envoyee par le capteur				
+* 																			
+* Note : Les timings recommandes par Maxim Integrated ont ete utilises		
 ****************************************************************************/
 uint8_t Read(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	uint8_t bitValue = 0;
@@ -162,17 +162,17 @@ uint8_t Read(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction CommandGenerator													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*		uint8_t command 	: Commande a envoyer au capteur en hex			*
-*																			*
-* Inclus :	"1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Envoie la commande souhaitee au capteur								*
+* Fonction CommandGenerator													
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32					
+*		uint8_t command 	: Commande a envoyer au capteur en hex			
+*																			
+* Inclus :	"1WireDriver.h"													
+*																			
+* Description :																
+* 		Envoie la commande souhaitee au capteur								
 ****************************************************************************/
 void CommandGenerator(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t command){
 	uint8_t LSB;
@@ -185,18 +185,18 @@ void CommandGenerator(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t command){
 
 
 /****************************************************************************
-* Fonction ROMCodeGenerator													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Utilisee dans la fonction MatchROM pour generer un ROM Code unique  *
-* 		pour selectionner un capteur specifique								*
+* Fonction ROMCodeGenerator												
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32					
+*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Utilisee dans la fonction MatchROM pour generer un ROM Code unique  
+* 		pour selectionner un capteur specifique								
 ****************************************************************************/
 void ROMCodeGenerator(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint64_t DeviceROMcode){
 	uint64_t LSB;
@@ -208,9 +208,9 @@ void ROMCodeGenerator(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint64_t DeviceROM
 }
 
 /****************************************************************************
-* Fonction SearchROM														*
-*																			*
-*						FONCTION NON OPERATIONNELLE							*
+* Fonction SearchROM														
+*																			
+*			FONCTION NON OPERATIONNELLE							
 ****************************************************************************/
 void SearchROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	//0xF0 command
@@ -219,19 +219,19 @@ void SearchROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction ReadROM															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Lis le code ROM unique du capteur									*
-* 																			*
-* Retourne : 																*
-* 		uint64_t ROMcode : Code ROM unique du capteur						*
+* Fonction ReadROM															
+*																	
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Lis le code ROM unique du capteur									
+* 																			
+* Retourne : 																
+* 		uint64_t ROMcode : Code ROM unique du capteur						
 ****************************************************************************/
 uint64_t ReadROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	uint64_t ROMcode = 0;
@@ -245,17 +245,17 @@ uint64_t ReadROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction MatchROM															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Selectionne un capteuer specifique selon le ROM code en parametre	*
+* Fonction MatchROM															
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32				
+*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Selectionne un capteuer specifique selon le ROM code en parametre	
 ****************************************************************************/
 void MatchROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint64_t DeviceROMcode){
 	//0x55 command
@@ -265,16 +265,16 @@ void MatchROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint64_t DeviceROMcode){
 
 
 /****************************************************************************
-* Fonction SkipROM															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Selectionne tous les capteurs sur la ligne							*
+* Fonction SkipROM															
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32					
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :															
+* 		Selectionne tous les capteurs sur la ligne							
 ****************************************************************************/
 void SkipROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	//0xCC command
@@ -283,9 +283,9 @@ void SkipROM(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction AlarmSearch														*
-*																			*
-*						FONCTION NON OPERATIONNELLE							*
+* Fonction AlarmSearch														
+*																			
+*						FONCTION NON OPERATIONNELLE							
 ****************************************************************************/
 void AlarmSearch(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	//0xEC command
@@ -294,16 +294,16 @@ void AlarmSearch(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction ConvertT															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Demande aux capteurs d'ecrire la temperature mesuree dans leur 		*
+* Fonction ConvertT															
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32					
+*																		
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Demande aux capteurs d'ecrire la temperature mesuree dans leur 		
 * 		memoire (byte 0 et byte 1)								 								*
 ****************************************************************************/
 void ConvertT(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
@@ -315,19 +315,19 @@ void ConvertT(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction WriteScratchpad													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*		uint8_t THreg 		: Valeur a ecrire dans le registre TH			*
-*		uint8_t TLreg		: Valeur a ecrire dans le registre TL			*
-*		uint8_t Configreg	: Valeur a ecrire dans le registre Config		*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Envoie 3 bytes de donnes dans les registres TH, TL et config		*
+* Fonction WriteScratchpad													
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*		uint8_t THreg 		: Valeur a ecrire dans le registre TH			
+*		uint8_t TLreg		: Valeur a ecrire dans le registre TL			
+*		uint8_t Configreg	: Valeur a ecrire dans le registre Config		
+*																		
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Envoie 3 bytes de donnes dans les registres TH, TL et config		
 ****************************************************************************/
 void WriteScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t THreg, uint8_t TLreg, uint8_t Configreg){
 	//0x4E command
@@ -339,19 +339,19 @@ void WriteScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t THreg, uint
 
 
 /****************************************************************************
-* Fonction ReadScratchpad													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx   : Port du STM32								*
-*		uint16_t GPIO_Pin  	  : Pin sur le port du STM32					*
-*		uint8_t nBytes		  :	Nombre de bytes a lire						*
-*		uint8_t MemoryArray[] :	Tableau ou stocker les valeurs 				*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Ecris dans le tableau entre en parametre les bytes de la memoire	*
-* 		du capteur du byte 0 a nBytes										*
+* Fonction ReadScratchpad													
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx   : Port du STM32								
+*		uint16_t GPIO_Pin  	  : Pin sur le port du STM32					
+*		uint8_t nBytes		  :	Nombre de bytes a lire						
+*		uint8_t MemoryArray[] :	Tableau ou stocker les valeurs 				
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Ecris dans le tableau entre en parametre les bytes de la memoire	
+* 		du capteur du byte 0 a nBytes										
 ****************************************************************************/
 void ReadScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t nBytes, uint8_t MemoryArray[]){
 	uint8_t byte = 0;
@@ -369,17 +369,17 @@ void ReadScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t nBytes, uint
 
 
 /****************************************************************************
-* Fonction CopyScratchpad													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Copie les valeurs du scratchpad vers l'EEPROM du capteur			*
+* Fonction CopyScratchpad													
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32					
+*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Copie les valeurs du scratchpad vers l'EEPROM du capteur			
 ****************************************************************************/
 void CopyScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	//0x48 command
@@ -388,17 +388,17 @@ void CopyScratchpad(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction ROMCodeGenerator													*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx 	: Port du STM32								*
-*		uint16_t GPIO_Pin		: Pin sur le port du STM32					*
-*		uint64_t DeviceROMcode 	: Code ROM unique du capteur				*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Copie les valeurs de l'EEPROM vers le scratchpad du capteur			*
+* Fonction ROMCodeGenerator													
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx 	: Port du STM32								
+*		uint16_t GPIO_Pin		: Pin sur le port du STM32					
+*		uint64_t DeviceROMcode 	: Code ROM unique du capteur			
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Copie les valeurs de l'EEPROM vers le scratchpad du capteur			
 ****************************************************************************/
 void RecallE2(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	//0xB8 command
@@ -409,20 +409,20 @@ void RecallE2(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 
 
 /****************************************************************************
-* Fonction ReadPSU															*
-*																			*
-* Parametres : 																*
-*		GPIO_TypeDef *GPIOx : Port du STM32									*
-*		uint16_t GPIO_Pin	: Pin sur le port du STM32						*
-*																			*
-* Inclus : "1WireDriver.h"													*
-*																			*
-* Description :																*
-* 		Demande au capteur si ils sont alimentes en mode parasite			*
-* 																			*
-* Retourne : 																*
-* 		uint8_t ParasitePowerPresence : 1 si capteur(s) en parasite mode	*
-* 		 								0 si aucun capteur en parasite mode *
+* Fonction ReadPSU															
+*																			
+* Parametres : 																
+*		GPIO_TypeDef *GPIOx : Port du STM32									
+*		uint16_t GPIO_Pin	: Pin sur le port du STM32						
+*																			
+* Inclus : "1WireDriver.h"													
+*																			
+* Description :																
+* 		Demande au capteur si ils sont alimentes en mode parasite			
+* 																			
+* Retourne : 															
+* 		uint8_t ParasitePowerPresence : 1 si capteur(s) en parasite mode	
+* 		 				0 si aucun capteur en parasite mode *
 ****************************************************************************/
 uint8_t ReadPSU(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin){
 	uint8_t ParasitePowerPresence = 0;
